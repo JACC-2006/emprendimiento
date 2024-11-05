@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inicio de Sesión - Profesor/Estudiante</title>
+    <style>
+        /* Estilos básicos para centrar el contenido y personalizar el fondo */
+        body, html {
+            height: 100%;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: url('../static/FISI.jpg'); /* Cambia 'fondo.jpg' por el nombre de tu imagen de fondo */
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: white;
+        }
+
+        /* Estilos del contenedor de login */
+        .login-container {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 20px;
+            border-radius: 30px;
+            width: 300px; /* Reducido para que sea menos ancho */
+            text-align: center;
+        }
+
+        .login-container h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .login-container input[type="text"],
+        .login-container input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border: none;
+            border-radius: 5px;
+        }
+
+        .login-container select {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            border-radius: 5px;
+        }
+
+        .login-container button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 20px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .login-container button:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <h1>Iniciar Sesión</h1>
+        <form action="/login" method="post">
+            <label for="tipo">Tipo de usuario:</label>
+            <select name="tipo" id="tipo">
+                <option value="estudiante">Estudiante Universitario</option>
+                <option value="profesor">Profesor</option>
+            </select>
+            <input type="text" name="username" placeholder="Usuario" required>
+            <input type="password" name="password" placeholder="Contraseña" required>
+            <button type="submit">Ingresar</button>
+        </form>
+    </div>
+</body>
+</html>

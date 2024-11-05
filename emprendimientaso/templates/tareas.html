@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="styles.css">
+    <title>Gestión de Tareas y Cursos</title>
+    <style>
+        /* Estilos generales */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f4f4f4;
+    color: #333;
+}
+
+header {
+    background: #2980b9;
+    color: white;
+    padding: 15px 0;
+    text-align: center;
+}
+
+main {
+    padding: 20px;
+}
+
+section {
+    margin: 20px 0;
+}
+
+.tasks {
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+#taskInput {
+    width: 70%;
+    padding: 10px;
+    margin-right: 10px;
+}
+
+button {
+    background: #2980b9;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 15px;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #3498db;
+}
+
+.completed {
+    text-decoration: line-through;
+    color: #7f8c8d;
+}
+
+.badge {
+    margin: 10px 0;
+}
+
+.progress-bar {
+    background: #e0e0e0;
+    border-radius: 5px;
+    height: 25px;
+    width: 100%;
+}
+
+.progress {
+    background: #2ecc71;
+    height: 100%;
+    border-radius: 5px;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.progress-text {
+    margin-top: 5px;
+}
+
+    </style>
+
+
+</head>
+<body>
+    <header>
+        <h1>Gestión de Tareas</h1>
+    </header>
+
+    <main>
+        <section class="tasks">
+            <h2>Mis Tareas</h2>
+            <form id="taskForm">
+                <input type="text" id="taskInput" placeholder="Añadir nueva tarea" required>
+                <button type="submit">Agregar Tarea</button>
+            </form>
+            <ul id="taskList"></ul>
+        </section>
+
+        <section class="courses">
+            <h2>Mis Cursos</h2>
+            <ul>
+                <li>Curso 1</li>
+                <li>Curso 2</li>
+                <li>Curso 3</li>
+            </ul>
+        </section>
+
+        <section class="badges">
+            <h2>Progreso de Insignias</h2>
+            <div class="badge">
+                <span class="badge-title">Insignia 1</span>
+                <div class="progress-bar" id="badge1">
+                    <div class="progress" id="progress1"></div>
+                </div>
+                <span class="progress-text" id="progressText1">0/5 Tareas Completadas</span>
+            </div>
+            <div class="badge">
+                <span class="badge-title">Insignia 2</span>
+                <div class="progress-bar" id="badge2">
+                    <div class="progress" id="progress2"></div>
+                </div>
+                <span class="progress-text" id="progressText2">0/10 Tareas Completadas</span>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2024 Gestión de Tareas. Todos los derechos reservados.</p>
+    </footer>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+        fetch('/obtener_tareas') // Solicita las tareas al backend
+            .then(response => response.json())
+            .then(data => {
+                data.tareas.forEach(task => {
+                    const listItem = document.createElement('li');
+                    listItem.textContent = task;
+                    listItem.addEventListener('click', function() {
+                        listItem.classList.toggle('completed');
+                        if (listItem.classList.contains('completed')) {
+                            tasksCompleted++;
+                        } else {
+                            tasksCompleted--;
+                        }
+                        updateProgress();
+                    });
+                    taskList.appendChild(listItem);
+                });
+            });
+    });
+        const taskForm = document.getElementById('taskForm');
+        const taskInput = document.getElementById('taskInput');
+        const taskList = document.getElementById('taskList');
+        let tasksCompleted = 0;
+
+        const badges = [
+            { id: 'progress1', target: 5 },
+            { id: 'progress2', target: 10 }
+        ];
+
+        taskForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const taskText = taskInput.value;
+            const listItem = document.createElement('li');
+
+            listItem.textContent = taskText;
+            listItem.addEventListener('click', function() {
+                listItem.classList.toggle('completed');
+                if (listItem.classList.contains('completed')) {
+                    tasksCompleted++;
+                } else {
+                    tasksCompleted--;
+                }
+                updateProgress();
+            });
+            taskList.appendChild(listItem);
+            taskInput.value = '';
+        });
+
+        function updateProgress() {
+            badges.forEach(badge => {
+                const progressElement = document.getElementById(badge.id);
+                const progressText = document.getElementById(`progressText${badge.id.charAt(badge.id.length - 1)}`);
+                const progressPercentage = Math.min((tasksCompleted / badge.target) * 100, 100);
+                progressElement.style.width = progressPercentage + '%';
+                progressText.textContent = `${Math.min(tasksCompleted, badge.target)}/${badge.target} Tareas Completadas`;
+            });
+        }
+    </script>
+</body>
+</html>

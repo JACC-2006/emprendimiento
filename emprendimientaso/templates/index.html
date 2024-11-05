@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plataforma de Clases Virtuales</title>
+    <link rel="stylesheet" type="text/css" href="ccs/styles.css"><!-- Enlazar a un archivo de estilos CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/fullcalendar@6.1.8/main.min.css" rel="stylesheet" />
+    <script src="
+https://cdn.jsdelivr.net/npm/fullcalendar@6.1.15/index.global.min.js
+"></script>
+    <style>
+        /* Estilos básicos para la estructura */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #2E8B57;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+        }
+        .section-title {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .class-card {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .class-card h3 {
+            margin-top: 0;
+        }
+        footer {
+            text-align: center;
+            background-color: #2E8B57;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .btn {
+            background-color: #2E8B57;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #1E6B43;
+        }
+        .calendar {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Cabecera -->
+    <header>
+        <h1>Plataforma de Clases Virtuales</h1>
+        <p>Organiza tus clases y mantente al día en la universidad</p>
+    </header>
+
+    <!-- Barra de Navegación -->
+    <nav>
+        <a href="#">Inicio</a>
+        <a href="{{url_for('clases')}}">Clases</a>
+        <a href="{{url_for('drive')}}">Materiales</a>
+        <a href="#">Grupos de Estudio</a>
+        <a href="{{ url_for('perfil') }}">Perfil</a>
+         <a href="{{ url_for('login') }}">Salir</a>
+    </nav>
+
+    <!-- Contenido Principal --> <!-- Contenido Principal -->
+    <div class="container">
+        <!-- Sección de Clases -->
+        <section>
+            <h2 class="section-title">Mis Clases</h2>
+            <button onclick="toggleVisibility('classes')">Mostrar/Ocultar Clases</button>
+            <div id="classes" style="display: none;">
+                <div class="class-card">
+                    <h3>Cálculo II</h3>
+                    <p>Horario: Lunes y Miércoles, 8:00 AM - 10:00 AM</p>
+                    <button class="btn" onclick="showLink('linkCalc')">Entrar a la Clase</button>
+                    <a id="linkCalc" class="class-link" href="https://ejemplo.com/calculo" target="_blank">Acceder a Cálculo II</a>
+                </div>
+
+                <div class="class-card">
+                    <h3>Física I</h3>
+                    <p>Horario: Martes y Jueves, 10:00 AM - 12:00 PM</p>
+                    <button class="btn" onclick="showLink('linkFisica')">Entrar a la Clase</button>
+                    <a id="linkFisica" class="class-link" href="https://ejemplo.com/fisica" target="_blank">Acceder a Física I</a>
+                </div>
+
+                <div class="class-card">
+                    <h3>Programación II</h3>
+                    <p>Horario: Viernes, 1:00 PM - 3:00 PM</p>
+                    <button class="btn" onclick="showLink('linkProg')">Entrar a la Clase</button>
+                    <a id="linkProg" class="class-link" href="https://ejemplo.com/programacion" target="_blank">Acceder a Programación II</a>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Calendario -->
+        <section>
+            <h2 class="section-title">Calendario Interactivo</h2>
+            <div id="calendar"></div>
+        </section>
+
+        <!-- Sección de Grupos de Estudio -->
+        <section>
+            <h2 class="section-title">Chat del Grupo de Estudio</h2>
+            <div id="chat-box" style="border: 1px solid #ccc; padding: 10px; height: 200px; overflow-y: scroll; background-color: #f9f9f9;">
+                <!-- Mensajes del chat aparecerán aquí -->
+            </div>
+            <input type="text" id="chat-message" placeholder="Escribe un mensaje..." style="width: 80%;" />
+            <button class="btn" onclick="sendMessage()">Enviar</button>
+        </section>
+
+
+
+    <!-- Cargar el archivo JavaScript -->
+    <script>
+        // Mostrar/Ocultar Clases
+        function toggleVisibility(id) {
+            var element = document.getElementById(id);
+            if (element.style.display === "none") {
+                element.style.display = "block";
+            } else {
+                element.style.display = "none";
+            }
+        }
+
+        function showLink(linkId) {
+            const link = document.getElementById(linkId);
+            if (link.style.display === "none") {
+                link.style.display = "block";
+            } else {
+                link.style.display = "none";
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            var calendarEl = document.getElementById('calendar');
+
+            var calendar = new FullCalendar.Calendar(calendarEl, {
+                initialView: 'dayGridMonth',
+                events: [
+                    { title: 'Cálculo II', start: '2024-10-25T08:00:00', end: '2024-10-25T10:00:00' },
+                    { title: 'Física I', start: '2024-10-26T10:00:00', end: '2024-10-26T12:00:00' },
+                    { title: 'Programación II', start: '2024-10-27T13:00:00', end: '2024-10-27T15:00:00' }
+                ]
+            });
+
+            calendar.render();
+        });
+
+
+        function sendMessage() {
+            var chatBox = document.getElementById('chat-box');
+            var message = document.getElementById('chat-message').value;
+
+            if (message.trim() !== '') {
+                var newMessage = document.createElement('p');
+                newMessage.textContent = message;
+                chatBox.appendChild(newMessage);
+
+                document.getElementById('chat-message').value = ''; // Limpiar el campo de texto
+                chatBox.scrollTop = chatBox.scrollHeight; // Desplazar hacia abajo automáticamente
+            }
+        }
+
+    </script>
+</body>
+</html>

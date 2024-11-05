@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Gestión de Tareas</title>
+    <style>
+        /* Estilos básicos para la estructura */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        header {
+            background-color: #2E8B57;
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        nav {
+            background-color: #333;
+            padding: 10px;
+        }
+        nav a {
+            color: white;
+            padding: 14px 20px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+        nav a:hover {
+            background-color: #ddd;
+            color: black;
+        }
+        .container {
+            padding: 20px;
+        }
+        .section-title {
+            color: #333;
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .class-card {
+            background-color: white;
+            border-radius: 5px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .class-card h3 {
+            margin-top: 0;
+        }
+        footer {
+            text-align: center;
+            background-color: #2E8B57;
+            color: white;
+            padding: 10px;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+        .btn {
+            background-color: #2E8B57;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .btn:hover {
+            background-color: #1E6B43;
+        }
+        .calendar {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Gestión de Tareas</h1>
+    </header>
+
+    <main>
+        <section>
+            <h2>Añadir Nueva Tarea</h2>
+            <form action="{{ url_for('asignar_tarea') }}" method="POST">
+                <input type="text" name="nombre" placeholder="Nombre de la tarea" required>
+                <input type="date" name="fecha" placeholder="Fecha de entrega" required>
+                <button type="submit">Asignar Tarea</button>
+            </form>
+        </section>
+
+        <section>
+            <h2>Mis Tareas</h2>
+            <ul>
+                {% for tarea in tareas %}
+                <li>{{ tarea.nombre }} - {{ tarea.fecha }}</li>
+                {% endfor %}
+            </ul>
+        </section>
+    </main>
+</body>
+</html>

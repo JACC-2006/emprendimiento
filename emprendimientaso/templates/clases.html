@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Listado de Clases y Tareas Pendientes</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+        }
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+        th {
+            background-color: #4CAF50;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        .task-status {
+            font-weight: bold;
+        }
+        .pending {
+            color: red;
+        }
+        .completed {
+            color: green;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Listado de Clases y Tareas Pendientes</h1>
+
+    <h2>Clases</h2>
+    <table>
+        <tr>
+            <th>Clase</th>
+            <th>Profesor</th>
+            <th>Horario</th>
+        </tr>
+        <tr>
+            <td>Redacción y Técnicas de Comunicación</td>
+            <td>Prof. Pérez</td>
+            <td>Lunes y Miércoles, 10:00 - 11:30</td>
+        </tr>
+        <tr>
+            <td>Investigación Formativa</td>
+            <td>Prof. García</td>
+            <td>Martes y Jueves, 09:00 - 10:30</td>
+        </tr>
+        <tr>
+            <td>Realidad Nacional y Mundial</td>
+            <td>Prof. Rodríguez</td>
+            <td>Viernes, 08:00 - 10:00</td>
+        </tr>
+    </table>
+
+    <h2>Tareas Pendientes</h2>
+    <table>
+        <tr>
+            <th>Tarea</th>
+            <th>Clase</th>
+            <th>Fecha de Entrega</th>
+            <th>Estado</th>
+        </tr>
+        <tr>
+            <td>Ensayo sobre comunicación efectiva</td>
+            <td>Redacción y Técnicas de Comunicación</td>
+            <td>01/11/2024</td>
+            <td class="task-status pending">Pendiente</td>
+        </tr>
+        <tr>
+            <td>Presentación de investigación</td>
+            <td>Investigación Formativa</td>
+            <td>05/11/2024</td>
+            <td class="task-status pending">Pendiente</td>
+        </tr>
+        <tr>
+            <td>Lectura del libro "Realidad Mundial"</td>
+            <td>Realidad Nacional y Mundial</td>
+            <td>10/11/2024</td>
+            <td class="task-status completed">Completado</td>
+        </tr>
+    </table>
+
+</body>
+</html>
